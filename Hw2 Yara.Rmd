@@ -1,0 +1,275 @@
+---
+title: "Yara Miranda"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+**1.1**
+
+a <- 5
+b <- 10
+a+b
+b-a*2
+b*a/b
+I applied the mathematical operations in the letters a and b, and then ran it. 
+
+**1.2**
+
+install.packages ("devtools")
+I installed the devtools by using the command install.packages
+
+**1.3**
+
+install.packages("ggplot2")
+I installed the ggplots using devtools
+
+**1.4**
+separate() is used to separate a character column into multiple columns 
+
+**1.5**
+
+```{r}
+slices <- c(20, 16,2, 7, 8)
+lbls <- c("São Paulo", "Rio de Janeiro", "Goiás", "Bahia", "Santa Catarina")
+pie(slices, labels = lbls, main="Pie Chart of Brasil States")
+```
+
+slices <- c(20, 16,2, 7, 8)
+lbls <- c("São Paulo", "Rio de Janeiro", "Goiás", "Bahia", "Santa Catarina")
+pie(slices, labels = lbls, main="Pie Chart of Brasil States")
+
+**1.6**
+
+```{r}
+apropos("test")
+```
+
+**1.7**
+
+https://stackoverflow.com/questions/52378147/change-color-for-seaborn-horizontal-bar-chart
+Someone is asking how to change the color of rainbow bar chart to a unique color. The answer is satisfatory, it provides a new code and explain that it appears rainbow when is without a defined color. 
+
+**1.8**
+
+I would use install.packages("my_package") and library("my_package")
+
+**1.9**
+
+First I would use the command help.search("my_function"). Then I would search it on StackOverflow
+
+**1.10**
+c()
+Is says that is NULL
+
+**1.11**
+
+c("")
+
+**1.12**
+
+```{r}
+x <- c(1,2,3)
+y <- c('1','2','3')
+c(x,y)
+```
+
+**1.13**
+
+```{r}
+data(mtcars)
+summary('cadillac fleetwood')
+```
+
+**1.14**
+
+```{r}
+table(mtcars$am,mtcars$mpg)
+```
+
+**1.15**
+The articles are about how to use correct data and how to make your graphs look clear and easy to understand.
+
+**1.16**
+
+The chance that it will rain tomorrow - discrete quantitative
+Numbers of cars that travel, in one day, on the busiest avenue in the city - discrete quantitative
+Customer satisfaction with the service: excellent, good, regular, bad, or very bad - ordinal qualitative
+Blood type - nominal qualitative
+Email of Company X customers - nominal qualitative
+Time of professional experience of employees of Company X, in years - continuous quantitative
+Time of professional experience of employees of Company X, in seconds - continuous quantitative
+Professionalexperience of Company X employees: highexperience,mediumexperience,orlowexperience - ordinal
+qualitative
+Gender of the interviewee - nominal qualitative
+HDI of the countries - continuous quantitative
+The inflation rate for the year  - continuous quantitative
+
+**2.1**
+
+```{r}
+2+2 
+```
+
+**2.2**
+
+```{r}
+2 + pi
+```
+
+**2.3**
+
+```{r}
+T = 1
+```
+
+**2.4**
+
+```{r}
+4/3
+```
+
+**2.5**
+
+```{r}
+help("cor.test")
+```
+
+**2.6**
+
+```{r}
+help("cor.test")
+```
+
+**2.7**
+
+```{r}
+help("if")
+```
+
+**2.8**
+
+```{r}
+help("cor.test")
+```
+
+**2.9**
+```{r}
+sum(1,2)
+```
+
+**2.10**
+
+```{r}
+numbers <- c(1,2,3,4)
+```
+**2.11**
+
+```{r}
+animals <- c("dog", "cat", "parrot", "bunny")
+```
+**2.12**
+
+```{r}
+animals <- c("dog", "cat", "parrot", "bunny")
+```
+
+*2.13*
+
+```{r}
+head(mtcars)
+```
+**2.14**
+
+```{r}
+str(mtcars)
+```
+ **2.15**
+```{r}
+dim(mtcars)
+```
+
+**2.16**
+
+```{r}
+names(mtcars)
+```
+**2.17**
+```{r}
+head(mtcars, n=10)
+```
+**2.18**
+
+```{r}
+animals <- c("dog", "cat", "parrot", "bunny")
+numbers <- c(1,2,3,4)
+datb <- data.frame(animals,numbers)
+```
+**2.19**
+
+```{r}
+dat <- c(1/100)
+save(dat, file = "my_data.RData" )
+```
+
+**2.20**
+install.packages("tidyverse")
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+ggplot(data = diamonds) + geom_bar(mapping = aes(x = cut))
+```
+
+**2.21**
+
+```{r}
+ggplot(data = diamonds) + geom_bar(mapping = aes(x = carat))
+7
+```
+
+**2.22**
+
+```{r}
+theme_bw(5) + ggplot(data = diamonds, mapping = aes(x = cut))
+```
+
+**2.23**
+
+```{r}
+ggplot(data = diamonds) + geom_bar(mapping = aes(x = cut, fill = "red"))
+```
+
+**challenge**
+
+```{r}
+challenge <-c(1: 1000000)
+i=challenge%%2==0
+challenge[i]
+```
