@@ -1,0 +1,14 @@
+---
+title: "Yara"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+Métodos quantitativos são importantes para a análise de dados e evidências, assim como para estabelecer uma relação causal entre A e B.
+
+```{r}
+a <- seq(1:10)
+b <- a*a
+plot(a, b)
+```

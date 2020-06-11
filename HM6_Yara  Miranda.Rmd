@@ -1,0 +1,203 @@
+---
+title: "Homework 6 -- Intro to Probability and Statistics"
+author: "Yara Miranda"
+output: pdf_document
+---
+
+# Instructions:
+
+**Due:** 05/21 at 11:59PM.
+
+**What am I expecting?** An R Markdown with the answers.
+
+**Have fun!**
+
+The Brazilian Ministry of Health keep records of the daily number of Coronavirus cases, by dates and municipalities. The dataset can be found here: (https://covid.saude.gov.br/). 
+
+## Question 1
+
+Take some time to familiarize yourself with the data. After that, please provide here a brief explanation of the variables and how the dataset is organized.
+
+**Interpretation**
+The dataset is composed by 14 variables, which include  the number of covid-19 accumulated infections, casualities, new cases and recoverd cases per day by state and municipalities in Brazil. There are also variables such as epidemic week, population, municipalty code, UF and health region. 
+
+## Question 2
+
+I saved the May 15 version of the dataset on the class GitHub, under the name `brazilcorona.csv`. Load the dataset in your computer and put a `head` of the dataset here.
+
+```{r}
+brcorona <- read.csv("https://raw.githubusercontent.com/umbertomig/intro-prob-stat-FGV/master/datasets/brazilcorona.csv")
+head(brcorona)
+```
+
+## Question 3
+
+Note that the dataset has the aggregated results by country, region, and state. Exclude all these aggregated results, keeping only the cases by the municipality. After that, exclude all cases before May 15. Put a `head` of the filtered dataset here. What is the dimension of the filtered dataset?
+
+```{r}
+library(tidyverse)
+muncorona <- filter(brcorona, data == "2020-05-15", !is.na(municipio))
+head(muncorona, 10)
+```
+
+To see the dimension of the dataset, I can use the function "dim"
+```{r}
+dim(muncorona)
+```
+
+## Question 4
+
+Use the municipal population to compute the average infections rate (the number of infections divided by population times 100000) and mortality rate (the number of casualties divided by municipal population times 100000). For each state, which municipalities have the lowest and the highest infections and death rates? Create a new dataset with the average infections and mortality rates by municipality.
+
+Infections rate: 
+```{r}
+infectbrcorona <- mean((muncorona$casosAcumulado/muncorona$populacaoTCU2019)*100000, na.rm = TRUE)
+infectbrcorona
+```
+
+Mortality rate
+```{r}
+mortbrcorona <- mean((muncorona$obitosAcumulado/muncorona$populacaoTCU2019)*100000, na.rm = TRUE)
+mortbrcorona
+```
+
+For each state, which municipalities have the lowest and the highest infections and death rates? Create a new dataset with the average infections and mortality rates by municipality
+
+```{r}
+setcorona <- muncorona %>% 
+  mutate_if(is.factor, fct_explicit_na)%>%
+  group_by(estado,municipio, codmun, coduf)%>%
+  summarise(average_infections = mean((casosAcumulado/populacaoTCU2019)*100000,
+                                      na.rm=T),
+            average_death = mean((obitosAcumulado/populacaoTCU2019)*100000, na.rm=T),
+                             ncasos = n()) 
+
+head(setcorona)
+dim(setcorona)
+```
+
+Highest infection rates 
+```{r}
+setcorona%>% group_by(estado) %>% top_n(1, average_infections)
+```
+
+Lowest infection rates
+```{r}
+setcorona%>% group_by(estado) %>% top_n(-1, average_infections)
+```
+
+Highest death rates by state 
+```{r}
+setcorona %>% group_by(estado) %>% top_n(1, average_death)
+```
+
+Lowest death rate by state
+```{r}
+setcorona %>% group_by(estado) %>% top_n(-1, average_death)
+```
+
+
+## Question 5
+
+In the dataset `brmayors.csv`, there are the party, gender, and schooling of the Brazilian mayors elected in 2016. I downloaded this dataset from the `CEPESP Data` repository (http://cepespdata.io/). Explore the variables making tables and/or barplots. Provide a brief interpretation of the results.
+
+```{r}
+brmayors <- read.csv("https://raw.githubusercontent.com/umbertomig/intro-prob-stat-FGV/master/datasets/brmayors.csv")
+head(brmayors)
+```
+
+```{r}
+tabpartido <- table(brmayors$DESCRICAO_SEXO)
+barplot(tabpartido, col = "seagreen", main = "Gender distribution")
+```
+
+```{r}
+library(ggplot2)
+ggplot(data = brmayors) +
+  geom_bar(mapping = aes(y = factor(SIGLA_PARTIDO), 
+                         fill = factor(DESCRICAO_SEXO))) + labs (title = "Party and gender distribution", y = "Party name")
+```
+
+```{r}
+ggplot(data = brmayors) +
+  geom_bar(mapping = aes(y = factor(DESCRICAO_GRAU_INSTRUCAO)), fill = "red") + labs (title = "Schooling distribution",y= "schooling level", x = "number of mayors")
+```
+
+**Interpretation**
+
+The first barplot shows that there is huge disparity regarding major's gender, there are few female mayors. Also, as represented in the second graph, the parties with the highest amount of mayors elected are PMDB, PSDB, PSD, PSB and PP. Schooling distribution graph shows that the majority of mayors elected have completed college or high school. 
+
+
+## Question 6
+
+Merge this dataset with the mortality and infections rates dataset created in the previous question. Put a `head` of the new dataset.
+
+```{r}
+brmayors <- rename(brmayors, codmun = COD_MUN_IBGE)
+mergeset <- full_join(setcorona, brmayors)
+```
+
+## Question 7
+
+Some experts showed that places ruled by women have lower mortality rates than areas ruled by men. Test this hypothesis using regression analysis. Provide a brief interpretation of your results.
+
+```{r}
+lm(average_death~DESCRICAO_SEXO, data = mergeset)
+```
+
+**Interpretation**
+The correlation of 0.3416 shows that places ruled by men have a higher number of deaths, thus is possible to consider the hypothesis that places ruled by women have lower mortality rates.
+
+
+
+## Question 8
+
+Note that most municipalities have no cases of the disease. What happens if you put zero in the places that had no cases, and run the regression in *question 6*? Provide a brief interpretation of your results.
+
+```{r}
+mergeset$ncasos[is.na(mergeset$ncasos)] <- 0
+lm(average_death ~ DESCRICAO_SEXO, data = mergeset)
+```
+
+**Interpretation**
+The result is the same, because I had already eliminated the NAs and zeros from the dataset I am using.
+
+## Question 9
+
+Create a variable that codes the ideological positions, based on the politician's parties. Use the three-way category: `left`, `center`, and `right`. Justify your choices. Provide a table with the frequency by each category. Run a regression for the new variable, to investigate whether ideological position influences the COVID casualties and infections. Provide a brief interpretation.
+
+```{r}
+x <- mergeset$SIGLA_PARTIDO
+ ideologicalp <- function(x) {
+  esquerda <- c("PSOL", "PC do B", "PT", 'PPL', 'PSB', 'PMN')
+direita <- c("PSL", "PEN", "PTB", "PP", "PSC", "PSCD")
+  return(ifelse(x%in% esquerda, 'Left', ifelse(x%in%direita, 'Right', 'Center')))
+  }
+mergeset$ideologicalp = ideologicalp(x)
+table(mergeset$ideologicalp)
+
+lm(average_infections~ideologicalp, data = mergeset)
+lm(average_death~ideologicalp, data = mergeset)
+```
+
+**Interpretation**
+I divided the parties between center, left and right. The majority of the mayors elected are from the "center" and the amount of left and right mayors is similar. The regression shows that places ruled by right mayors have a smaller average of infections than places ruled by left mayor and than places ruled by "center" mayors, in that order. Places ruled by right mayors have even a lower mortality rate. It does not seems that places ruled by left mayors or center mayors differ much in the death mortality.
+
+
+
+## Question 10
+
+Using `ifelse` creates a variable `collegedegree`, which is `Yes` when the mayor has a college degree, and `No` otherwise. Run a regression for the new variable, to investigate whether education influences the COVID casualties and infections. Provide a brief interpretation.
+
+```{r}
+collegedegree <- mergeset$DESCRICAO_GRAU_INSTRUCAO
+collegedegree <- ifelse(collegedegree == 'SUPERIOR COMPLETO', "Yes", "No")
+
+lm(average_infections~collegedegree, data = mergeset)
+
+lm(average_death~collegedegree, data = mergeset)
+```
+
+**Interpretation**
+
+The correlation shows that if mayors have a college degree, the infections rate is smaller than in places where the mayor does not has a college degree. The correlation between education and covid-19 cases is not so strong regarding mortality rate, in which the correlation is just 0.48, while in the infection rate is 6.93. 

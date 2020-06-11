@@ -1,0 +1,127 @@
+---
+title: "Yara Homework 3"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r}
+install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+```
+
+```{r}
+library("tidyverse")
+```
+
+```{r}
+gay <- read.csv("https://raw.githubusercontent.com/umbertomig/intro-prob-stat-FGV/master/datasets/gay.csv")
+```
+
+```{r}
+gay <- filter(gay, study==1)
+```
+
+```{r}
+gay$study <- NULL
+```
+
+```{r}
+head(gay, 10)
+```
+
+
+```{r}
+install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+```
+
+```{r}
+library(ggplot2)
+```
+
+Support for gay marriage 
+```{r}
+ggplot (data = gay) + geom_histogram(mapping = aes(x = ssm), bins = 5, fill= rainbow(5)) + labs(x = 'support')
+```
+
+
+```{r}
+gay <- read.csv("https://raw.githubusercontent.com/umbertomig/intro-prob-stat-FGV/master/datasets/gay.csv")
+ggplot (data = gay) + geom_bar(mapping = aes(x = treatment), fill= rainbow(5)) + labs(x = 'treatment')
+```
+
+
+```{r}
+gay <- read.csv("https://raw.githubusercontent.com/umbertomig/intro-prob-stat-FGV/master/datasets/gay.csv")
+ggplot (data = gay) + geom_histogram(mapping = aes(x = wave), bins = 7, fill= rainbow(7)) + labs(x = 'Waves')
+```
+
+
+The graph and the bar plot show that the No contact was the most commom treatment. 
+Level 1 and 5 of support are the most common, while 3 is the least commom. 
+
+***question 2***
+
+```{r}
+wave1 <- subset(gay%>%filter(wave == 1))
+```
+
+```{r}
+tapply(wave1$ssm,wave1$treatment, mean)
+```
+
+Yes, randomization was well done for wave 1. The tree principal treatment analyses:  same-sex marriage script (ssm) by gay canvasser, ssm by straight canvasser, no contact show similar result
+
+***Question 3 ***
+
+```{r}
+wave2 <- subset(gay%>%filter(wave == 2))
+```
+
+```{r}
+tapply(wave2$ssm,wave2$treatment, mean)
+```
+
+The mean for Same-Sex Marriage Script by Straight Canvasser was 3.09 and for Same-Sex Marriage Script by Gay Canvasser was 2.99. In the second wave the mean for Same-Sex Marriage Script by Straight Canvasser was 3.16 and for Same-Sex Marriage Script by Gay Canvasser was 3.13. Thus, increase in Same-Sex Marriage Script by Gay Canvasse mean was higher than in ame-Sex Marriage Script by Straight Canvasser mean. In that way, there is a positive correlation between a gay canvase and support for gay marriage. 
+
+***question 4***
+
+```{r}
+wave7 <- subset(gay%>%filter(wave == 7))
+```
+
+```{r}
+tapply(wave7$ssm,wave7$treatment, mean)
+```
+
+In comparison with the first wave, there was an increase of 0.36 for Same-Sex Marriage Script by Gay Canvasser and 0.26 for same-Sex Marriage Script by Straight Canvasser. Thus, this means that the result persist: same-Sex Marriage Script by Gay Canvasser influence in Gay Marriage Support in a positive way. 
+
+***Coronavirus***
+
+```{r}
+install.packages("coronavirus", repos = "http://cran.us.r-project.org")
+```
+
+```{r}
+library("coronavirus")
+data("coronavirus")
+help("coronavirus")
+```
+
+The dataset contains the daily summary of Coronavirus cases (confirmed, death, and recovered), by state/province. Source: Johns Hopkins University Center for Systems Science and Engineering (JHU CCSE) Coronavirus website
+
+***question 2***
+I found a question on Stackoverflow about coronavirus package update. It says that the packages is automatically updated in Github. Also, there in the bottom left corner shows when was the last update done. 
+Link: https://stackoverflow.com/questions/60956522/john-hopkins-arcgis-coronavirus-map-by-date
+
+***question 3***
+
+```{r}
+head(coronavirus, 10)
+```
+
+```{r}
+library(coronavirus)
+table(coronavirus$Country.Region)
+```
+
+I created a table using the function Table. Before I instaled the package coronavirus and load it. 

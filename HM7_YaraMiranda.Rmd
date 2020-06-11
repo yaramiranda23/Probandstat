@@ -1,0 +1,259 @@
+---
+title: "HM7_Yara Miranda"
+author: "Yara Miranda"
+date: "5/26/2020"
+output: pdf_document
+---
+
+# Instructions:
+
+**Due:** 05/28 at 11:59PM.
+
+**What am I expecting?** An R Markdown with the answers.
+
+**Have fun!**
+
+## Question 1
+
+An urn has two white balls (W) and three red balls (R). You draw a ball from the urn. If it is white, you flip a coin. If it is red, you throw it back in the urn and draw another ball. What is the sample space of this experiment?
+
+The sample space is {WH; WT; R}
+
+## Question 2
+
+Suppose you toss two dices. Consider two events:
+
+- A: the sum of the numbers in both dices is equal to 9
+- B: the number in the first die is greater than or equal 4.
+
+Define:
+
+1. The elements of $A$
+
+A = {3 and 6;6 and 3; 4 and 5; 5 and 4}
+2. The elements of $B$
+
+B = {4 and 1; 4 and 2; 4 and 3; 4 and 4; 4 and 5; 4 and 6; 5 and 1; 5 and 2; 5 and 3; 5 and 4; 5 and 4; 5 and 5; 5 and 6; 6 and 1; 6 and 2; 6 and 3; 6; and 4; 6 and 5; 6 and 6}
+
+3. The elements of $A \cap B$
+
+$A\cap B$ = {4 and 5; 5 and 4; 6 and 3}
+
+4. The elements of $A \cup B$
+
+$A \cup B$ = {3 and 6; 6 and 3; 4 and 5; 5 and 4; 4 and 1; 4 and 2; 4 and 3; 4 and 4; ; 4 and 6; 5 and 1; 5 and 2; 5 and 3; 5 and 5; 5 and 6; 6 and 1; 6 and 2; 6; and 4; 6 and 5; 6 and 6}
+
+5. The elements of $A^C$
+
+$A^C$ = {1 and 1; 1and 2; 1and 3; 1and 4;  1and 5;  1and 6;  2and 1;  2and 2;  2and 3;  2and 4;  2and 5;  2and 6;  3and 1;  3and 2;  3and 3;  3and 4;  3and 5;  4and 1;  4and 2;  4and 3;  4and 4;  4and 6;  5and 1;  5and 2;  5and 3;   5and 5;  5and 6;  6and 1;  6and 2;  6and 4; 6and 5;  6and 6}
+
+
+## Question 3
+
+The probability that student $A$ solves a given problem is $\dfrac{2}{3}$. The probability that student $B$ solves the same problem is $\dfrac{3}{4}$. If both try to solve the problem independently, what is the chance that the problem will be solved?
+
+There is a chance of $\dfrac{11}{12}$ or 91,66\% that the problem will be solved.
+
+```{r}
+2/3*3/4
+2/3 + 3/4 - 1/2
+```
+
+## Question 4
+
+Consider the following probability table:
+
+|       | $B$  | $B^C$ | Total |
+|-------|------|-------|-------|
+| $A$   | 0.04 | 0.06  | 0.10  |
+| $A^C$ | 0.08 | 0.82  | 0.90  |
+| Total | 0.12 | 0.88  | 1.00  |
+
+Note that $P(A) = 0.10$, $P(A \cap B) = 0.04$, and so on. Are the events $A$ and $B$ independent?
+
+### First way to prove
+If they are Independent events: $P(A\cap B) = P(A).P(B) = 0,04$
+
+Applying to the table:  
+
+$P(A\cap B) = P(A).P(B)$ 
+
+$P(A\cap B)= 0.10*0,12$
+          
+$P(A\cap B)= 0.0125$
+
+$0.0125 =/= 0.04$
+
+Thus, the events are dependent.
+
+### Second way to prove
+
+If they are independent:
+
+$P(A given B) = P(A) = 0.1$ 
+
+Applying one formula into another:
+
+$P(A given B) = \dfrac{P(A\cap B)}{P(B)}$
+
+$0.1         = \dfrac{0.04}{0.12}$
+
+$0.01        =/= 0.33$
+
+Thus, the events are dependent.
+                                
+## Question 5
+
+A company produces phones in three factories. In factory I, the company produces 40\% of the phones, while in factories II and III produce 30\% of the phones in each. The chance of a phone is assembled broken is 0.01 (factory I), 0.04 (factory II), and 0.03 (factory III). The phones are then taken to a warehouse. 
+
+1. If you select a phone randomly in the warehouse, what is the chance that it is broken?
+
+```{r}
+0.01*0.4 + 0.04*0.3 + 0.03*0.3
+```
+
+The chance that is broken is 2,5\%
+
+2. Suppose the phone you draw is broken. What is the probability that it was manufactured by factory I?
+
+```{r}
+(0.01*0.04)/0.025
+```
+
+there is 16\% of chance that the broken phone was made in factory 1
+
+## Question 6
+
+Prove that if $A$ and $B$ are independent, then:
+
+**1. $A^C$ and $B^C$ are independent**
+
+
+P$A^C\cap B^C = P(A\cup B)^C$)
+
+P$A^C\cap B^C = 1 - P(A\cup B)$
+
+P$A^C\cap B^C = 1- [P(A) + P(B) - P(A \cap B)]$
+
+P$A^C\cap B^C = 1- [P(A) + P(B) - P(A)P(B)]$
+
+P$A^C\cap B^C = [1 - P(A)] + [1-P(B)] - P(A)P(B)$
+
+P$A^C\cap B^C = 1 - [1 - P(A^C) + 1 - P(B^C) - ((1 - P(A^C))(1 - P(B ^C)))]$
+
+P$A^C\cap B^C =  1[1-P(A^C)P(B^C)]$
+
+P$A^C\cap B^C = P(A^C)P(B^C)$
+
+
+
+if P$A\cap B = P(A)P(B)$
+
+and P$A^C\cap B^C = P(A^C)P(B^C)$
+
+Hence, $A^C$ and $B^C$ are independent
+
+
+
+**2. $A$ and $B^C$ are independent.**
+
+
+$P(A\cap B^C) = P(A) - P(A \cap B)$ =
+
+$P(A\cap B^C) = P(A) - P(A)P(B)$ 
+
+$P(A\cap B^C) = P(A)(1-P(B))$ 
+
+$P(A\cap B^C) = P(A)P(B^C)$ 
+
+
+
+**3. $A^C$ and $B$ are independent.**
+
+
+$P(A^C\cap B) = P(B) - P(A \cap B)$ =
+
+$P(A^C\cap B)  = P(B) - P(A)P(B)$ 
+
+$P(A^C\cap B)  = P(B)(1-P(A))$ 
+
+$P(A^C\cap B)  = P(B)P(A^C)$ 
+
+
+## Question 7 
+
+Let $\bar{x} = \dfrac{\sum_{i=1}^n x_i}{n}$. Prove that:
+
+1. $\sum_{i=1}^n(x_i-\bar{x}) = 0$
+
+$\sum_{i=1}^n(x_i-\bar{x})$ =
+
+$\sum_{i=1}^nx_i - \sum{i=1}^n \bar{x}$ =
+
+$\sum_{i=1}^nx_i - \sum{i=1}^n \dfrac{\sum_{i=1}^n x_1}{n}$ =
+
+$\sum_{i=1}^nx_i - [\sum{i=1}^n * \sum{i=1}^n x_1 * (1/n)]$ =
+
+$\sum_{i=1}^nx_i - [n * \sum{i=1}^n x_1 * (1/n)]$ =
+
+$\sum_{i=1}^nx_i - \sum{i=1}^n x_1$ = 0
+
+2. $\sum_{i=1}^n(x_i-\bar{x})^2 = \sum_{i=1}^n x_i^2 - n\bar{x}^2$
+
+First part:
+
+(I) $\sum_{i=1}^n \bar{x}^2 = n\bar{x}^2$
+
+(II)  $\sum_{i=1}^n 2xi\bar{x}$ :
+
+$\sum_{i=1}^n 2xi\bar{x}$ =
+
+$2n\bar{x} * \bar{x}$ 
+
+= $2n\bar{x}^2$
+
+
+$\sum_{i=1}^n xi^2 - 2n\bar{x}^2 + n\bar{x}^2 = \sum_{i=1}^n x_i^2 - n\bar{x}^2$
+$\sum_{i=1}^n (xi-\bar{x})^2$ = 
+
+$\sum_{i=1}^n xi^2 - \sum_{i=1}^n 2xi\bar{x} +  \sum_{i=1}^n \bar{x}^2$ =
+
+
+
+Second part:
+
+(i) $\sum_{i=1}^n \bar{x}^2 = n\bar{x}^2$
+
+(ii) $\sum_{i=1}^n 2xi\bar{x}$ :
+
+$\sum_{i=1}^n 2xi\bar{x}$ =
+
+$2n\bar{x} * \bar{x}$ 
+
+= $2n\bar{x}^2$
+
+
+
+$\sum_{i=1}^n xi^2 - 2n\bar{x}^2 + n\bar{x}^2 = \sum_{i=1}^n x_i^2 - n\bar{x}^2$
+
+
+
+## Question 8
+
+Let $P(k; n,p) = {n \choose k} p^k(1-p)^{n-k}$ the probability of $k$ successes in a binomial distribution with $n$ trials $p$ probability of success. Prove that:
+
+$$ P(k+1; n,p) \ = \ \dfrac{(n-k)p}{(k+1)(1-p)}P(k; n,p) $$
+
+
+$$P(k; n,p) = {n \choose k} (1-p)$$
+ 
+ 
+$$P(k+1; n,p) = {n \choose k+1} (1-p)^{n-k-1} p^{k+1}$$ = 
+ 
+$$\ \dfrac{(n-k)}{(k+1)} {n \choose k} (1-p)^{n-k}(1-p)^{-1}pp^{k}$$ =
+ 
+$$ \ \dfrac{(n-k)}{(k+1)(1-p)} {n \choose k} (1-p)^{n-k}pp^{k}$$ =
+ 
+$$ \ \dfrac{(n-k)p}{(k+1)(1-p)} {n \choose k} (1-p)^{n-k}p^{k}$$ 
+ 
+$$ \ \dfrac{(n-k)p}{(k+1)(1-p)} P (k,n,p)$$ 
